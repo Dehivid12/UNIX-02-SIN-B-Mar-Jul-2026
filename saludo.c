@@ -7,3 +7,5 @@ return 0;
 cd
 ls -F
 ls -i
+echo "Lamine">text.txt
+stat test.txt
