@@ -11,3 +11,9 @@ gpg --output doc_cifrado.txt --encrypt --recipient 001610346A476C356D46ADE76C052
 gpg --decrypt doc_no_cifrado.txt
 gpg --output doc_no_cifrado_firmado.txt --clearsign doc_no_cifrado.txt
 gpg --edit-key 
+gpg --clearsign doc_no_cifrado.txt
+gpg --sign doc_no_cifrado.txt
+gpg --detach-sign doc_no_cifrado.txt
+gpg --verify doc_no_cifrado.txt.asc
+gpg --verify doc_no_cifrado.txt.gpg
+gpg --verify doc_no_cifrado.txt.sig doc_no_cifrado.txt
