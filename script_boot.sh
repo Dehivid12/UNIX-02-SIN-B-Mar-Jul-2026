@@ -9,3 +9,5 @@ total 8
 1573008 drwxrwxrwx+ 2 codespace codespace 4096 Apr  6 12:33 .
 1572874 drwxrwxrwx+ 5 codespace root      4096 Apr  6 12:33 ..
 stat . #info of the size
+sudo mkdir -p /tmp/prueba/sub1 /tmp/prueb /sub2 #create the file in that specific location
+stat /tmp/prueba #info of that file
