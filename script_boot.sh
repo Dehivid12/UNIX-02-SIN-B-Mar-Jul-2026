@@ -11,3 +11,4 @@ total 8
 stat . #info of the size
 sudo mkdir -p /tmp/prueba/sub1 /tmp/prueb /sub2 #create the file in that specific location
 stat /tmp/prueba #info of that file
+man mkdir
