@@ -14,3 +14,11 @@ stat /tmp/prueba #info of that file
 man mkdir
 pwd #shows the absolute route in which the user is
 whoami #shows the users name
+ls
+ls -l 
+ls -la #all
+ls -lh #human 
+ls -lt #date
+ls / #ls absolute route
+ls /etc | head -20 #first 20 terms
+ls /dev | head -20 #first 20 terms
