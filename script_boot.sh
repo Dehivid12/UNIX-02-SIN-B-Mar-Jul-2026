@@ -4,4 +4,8 @@ cd ~ #Goes to the users home directory
 cd $home #Makes the same job as cd
 mkdir proyecto #create new file
 cd proyecto/ #move to this file
-ls -lai
+ls -lai #lista de Inodo
+total 8
+1573008 drwxrwxrwx+ 2 codespace codespace 4096 Apr  6 12:33 .
+1572874 drwxrwxrwx+ 5 codespace root      4096 Apr  6 12:33 ..
+stat . #info of the size
