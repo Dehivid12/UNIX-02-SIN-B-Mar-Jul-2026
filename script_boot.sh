@@ -28,3 +28,4 @@ sudo apt install -y git vim make gcc libncurses-dev flex bison bc cpio libelf-de
 git clone --depth 1 https://github.com/torvalds/linux.git # clone linux
 cd linux # move to linux directory
 make menuconfig #change config
+make -j 2j
