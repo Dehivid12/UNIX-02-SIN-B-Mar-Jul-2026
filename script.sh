@@ -6,3 +6,5 @@ ls -l -ah # combined command
 ls -lah # combined command
 mkdir -- -rf # create rf
 rmdir -- -rf # delete rf
+ls --help # displays a summary
+man ls # complete manual
