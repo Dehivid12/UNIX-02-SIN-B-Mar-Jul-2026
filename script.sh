@@ -17,3 +17,8 @@ man git-clone
 
        # This default configuration is achieved by creating references to the remote branch heads under refs/remotes/origin and by initializing remote.origin.url and
        # remote.origin.fetch configuration variables.
+chmode # change mode (permissions)
+chmod +x script.sh # everyone can execute
+chmod u+x script.sh # only the owner can execute
+chmod o-r script.sh # take out lecture to others
+shmod u+rw,go-rwn script.sh # owner reads-writes, no one else can edit
