@@ -25,3 +25,4 @@ shmod u+rw,go-rwn script.sh # owner reads-writes, no one else can edit
 sudo echo "hola" > /etc/archivo_protegido # it does not work because sudo only affects echo
 echo "hola" | sudo tee /etc/archivo_protegido > /dev/null # create a protected file with "hola"
 echo "hola" | sudo tee /etc/archivo_protegido # opens the file in the terminal
+cat /etc/archivo_protegido # verify if the file exists and check its content
