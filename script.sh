@@ -27,3 +27,5 @@ echo "hola" | sudo tee /etc/archivo_protegido > /dev/null # create a protected f
 echo "hola" | sudo tee /etc/archivo_protegido # opens the file in the terminal
 cat /etc/archivo_protegido # verify if the file exists and check its content
 sudo sh -c 'echo "chao" >> /etc/archivo_protegido' # add content in the file
+sudo su - # enter as root user
+exit # log out
