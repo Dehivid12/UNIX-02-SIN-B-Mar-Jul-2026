@@ -29,3 +29,5 @@ cat /etc/archivo_protegido # verify if the file exists and check its content
 sudo sh -c 'echo "chao" >> /etc/archivo_protegido' # add content in the file
 sudo su - # enter as root user
 exit # log out
+echo "$HOME" # shows route
+echo'$HOME' # shows as a string
