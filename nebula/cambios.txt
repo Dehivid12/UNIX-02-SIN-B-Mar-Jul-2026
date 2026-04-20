@@ -1,0 +1,17 @@
+Fallos
+
+1. GnuPG - Fallo de Integridad y Confianza:
+- Error: Al intentar verificar 'galaxia.sh.sig', el sistema reportó la ausencia de la llave pública (Key ID: C59213134729C8DDA27A09FE4851BCF).
+- Hallazgo: No es posible garantizar la autenticidad del script sin la clave del autor. Se deja constancia de este riesgo de seguridad.
+
+2. Gestión de Permisos (Principio de Mínimo Privilegio):
+- Archivo 'cosmos.txt': Presentaba permisos excesivos de ejecución (rwxrwxrwx). Se corrigió a 644 (rw-r--r--) ya que es un archivo de texto plano y no requiere ser ejecutado.
+- Archivo 'galaxia.sh': Carecía de permisos de ejecución. Se aplicó 'chmod +x' para permitir su funcionamiento como script de shell.
+
+3. Restauración de Archivos del Sistema:
+- Archivo 'estrella.txt': Se detectó la ausencia del archivo original en el entorno de producción.
+- Acción: Se restauró satisfactoriamente utilizando el respaldo existente 'estrella.bak'.
+
+4. Mantenimiento de Documentación:
+- Se corrigió el nombre del archivo de reporte de 'cambos.txt' a 'cambios.txt' para cumplir con los estándares de nomenclatura.
+
