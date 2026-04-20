@@ -1,17 +1,39 @@
-Fallos
+1. Estructura de directorios
+Fallo: Carpeta registros mal nombrada y falta la carpeta borradores.
 
-1. GnuPG - Fallo de Integridad y Confianza:
-- Error: Al intentar verificar 'galaxia.sh.sig', el sistema reportó la ausencia de la llave pública (Key ID: C59213134729C8DDA27A09FE4851BCF).
-- Hallazgo: No es posible garantizar la autenticidad del script sin la clave del autor. Se deja constancia de este riesgo de seguridad.
+Solución: Se renombró a bitacoras y se creó borradores.
 
-2. Gestión de Permisos (Principio de Mínimo Privilegio):
-- Archivo 'cosmos.txt': Presentaba permisos excesivos de ejecución (rwxrwxrwx). Se corrigió a 644 (rw-r--r--) ya que es un archivo de texto plano y no requiere ser ejecutado.
-- Archivo 'galaxia.sh': Carecía de permisos de ejecución. Se aplicó 'chmod +x' para permitir su funcionamiento como script de shell.
+2. Archivos mal ubicados
+Fallo: cosmos.txt en la raíz y estrella.bak con extensión incorrecta.
 
-3. Restauración de Archivos del Sistema:
-- Archivo 'estrella.txt': Se detectó la ausencia del archivo original en el entorno de producción.
-- Acción: Se restauró satisfactoriamente utilizando el respaldo existente 'estrella.bak'.
+Solución: Se movió cosmos.txt a bitacoras/ y se renombró a estrella.conf.
 
-4. Mantenimiento de Documentación:
-- Se corrigió el nombre del archivo de reporte de 'cambos.txt' a 'cambios.txt' para cumplir con los estándares de nomenclatura.
+3. Permisos numéricos
+Fallo: cosmos.txt con permisos inseguros (644).
 
+Solución: Se aplicó chmod 640 (acceso solo para dueño y grupo).
+
+4. Permisos simbólicos
+Fallo: Script sin ejecución y configuración con escritura abierta a otros.
+
+Solución: Se aplicó u+x a galaxia.sh y o-w a estrella.conf.
+
+5. Bit SUID
+Fallo: galaxia.sh no heredaba privilegios del propietario.
+
+Solución: Se activó el bit con chmod u+s.
+
+6. Sticky bit
+Fallo: Usuarios externos podían borrar archivos en /tmp/nebula_zone.
+
+Solución: Se aplicó chmod +t al directorio.
+
+7. GPG: Generación y Cifrado
+Fallo: Falta de llaves y archivo de telemetría legible.
+
+Solución: Se creó la llave de aurora y se generó el archivo cosmos.txt.gpg.
+
+8. GPG: Firmas digitales
+Fallo: Firma de galaxia.sh corrupta y estrella.conf sin autenticar.
+
+Solución: Se re-firmó el .sig y se creó el archivo .asc.
