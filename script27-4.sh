@@ -12,3 +12,14 @@ echo "Hola" > mi_archivo
 ls -l mi_archivo
 sudo useradd -m -s /usr/bin/zsh luna # creates new user
 sudo chown luna mi_archivo # changes owner
+groups # see all groups
+sudo groupadd grupo_test # add to the group
+groups
+touch comun # create comun
+ls -l comun
+sudo chown luna:grupo_test mi_archivo # changes the owner
+ls -l mi_arhivo
+mkdir -p proyecto/sub # creates the directory
+touch proyecto/readme proyecto/sub/datos # Creates the file in a specific route
+sudo chown -R luna:grupo_test proyecto # changes owner
+ls -lR proyecto
