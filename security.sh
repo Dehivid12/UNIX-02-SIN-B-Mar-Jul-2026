@@ -68,8 +68,14 @@ sudo usermod -G desarrolladores SUSER
 # This REMOVES all secondary groups except desarrolladores
 id $USER # lost all the other groups
 #restore
-sudo usermod -aG diseno, marketing, grupo_temporal root
+sudo usermod -aG design, marketing, grupo_temporal root
 id root #restore
+git clone https://github.com/TU_USUARIO/UNIX-02-SIN-B-Mar-Jul-2026.git # Clone your own GitHub fork to your local machine
+cd UNIX-02-SIN-B-Mar-Jul-2026                                         # Enter the repository directory to start working
+git remote add amigo https://github.com/ales231/UNIX-02-SIN-B-Mar-Jul-2026.git # Link your friend's repository as a new data source
+git fetch amigo                                                       # Download all branches and history from your friend's repo
+git checkout -b security amigo/security                               # Create a new local branch 'security' based on your friend's work
+git push origin security                                              # Upload the new 'security' branch to your own GitHub account
 mkdir -p ~/lab_chgrp/{proyectos,reportes,scripts} # Create the directory tree structure for the lab
 touch ~/lab_chgrp/proyectos/app.py                # Create an empty python file for testing
 touch ~/lab_chgrp/proyectos/config.json           # Create a configuration file placeholder
@@ -80,3 +86,6 @@ ls -la ~/lab_chgrp/reportes/                      # Verify the report directory 
 git add .                                         # Stage all new files and directories for the next commit
 git commit -m "Add lab structure"                 # Save the changes to your local history with an English message
 git push origin security                          # Upload all work to the security branch on your GitHub
+sudo chgrp -R desarrolladores ~/lab_chgrp/scripts/ # Recursively change the group ownership of the scripts directory to 'desarrolladores'
+ls -laR ~/lab_chgrp/scripts/                       # List all files and subdirectories recursively to verify the new group assignment
+sudo chgrp -Rv design ~/lab_chgrp/reportes/        # CORRECTED: Use the 'design' group name that was successfully created earlier
