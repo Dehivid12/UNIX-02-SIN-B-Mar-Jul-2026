@@ -70,3 +70,13 @@ id $USER # lost all the other groups
 #restore
 sudo usermod -aG diseno, marketing, grupo_temporal root
 id root #restore
+mkdir -p ~/lab_chgrp/{proyectos,reportes,scripts} # Create the directory tree structure for the lab
+touch ~/lab_chgrp/proyectos/app.py                # Create an empty python file for testing
+touch ~/lab_chgrp/proyectos/config.json           # Create a configuration file placeholder
+touch ~/lab_chgrp/proyectos/informe.txt           # Create a text report file placeholder
+touch ~/lab_chgrp/proyectos/deploy.sh             # Create a shell script file for deployment
+ls -la ~/lab_chgrp/proyectos/                     # List all project files with detailed permissions and groups
+ls -la ~/lab_chgrp/reportes/                      # Verify the report directory contents and ownership
+git add .                                         # Stage all new files and directories for the next commit
+git commit -m "Add lab structure"                 # Save the changes to your local history with an English message
+git push origin security                          # Upload all work to the security branch on your GitHub
