@@ -10,3 +10,4 @@ touch ~/before_newgrp.txt
 ls -la ~/before_newgrp.txt
 exit
 echo "Grupo restaurado: $(id -gn)"
+echo "PID del shell actual: $$"
