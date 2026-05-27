@@ -8,3 +8,5 @@ echo "Current group: $(id -gn)"
 # create a new file before newgrp
 touch ~/before_newgrp.txt
 ls -la ~/before_newgrp.txt
+exit
+echo "Grupo restaurado: $(id -gn)"
