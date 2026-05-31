@@ -12,14 +12,26 @@
 # dd: copies files or entire partitions at bit level
 # Syntax: dd [OPTIONS] OPERAND
 
-# Copy a file using dd
-dd if=input.txt of=output.txt
+# Key arguments:
+# if    = Input File  (source to read from)
+# of    = Output File (destination to write to)
+# bs    = Block Size  (use K, M, G, T suffixes)
+# count = Number of blocks to read from input file
 
-# Copy with specific block size (512 bytes)
-dd if=input.txt of=output.txt bs=512
+# Create a swap file: 50 blocks of 1MB filled with zeros
+dd if=/dev/zero of=/tmp/swapex bs=1M count=50
 
-# Create a backup image of a partition
+# Clone an entire hard drive to another
+dd if=/dev/sda of=/dev/sdb
+
+# Create a disk backup image
 dd if=/dev/sda of=backup.img
 
-# Copy only a specific number of blocks
-dd if=/dev/sda of=backup.img count=1 bs=512
+# Copy raw data to a USB device
+dd if=image.iso of=/dev/sdb bs=4M
+
+# Backup the MBR (Master Boot Record) - first 512 bytes
+dd if=/dev/sda of=mbr_backup.img count=1 bs=512
+
+# Restore the MBR from backup
+dd if=mbr_backup.img of=/dev/sda count=1 bs=512
