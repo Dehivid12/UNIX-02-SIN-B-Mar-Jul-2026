@@ -6,6 +6,6 @@ print_name(){
     name="Black Hat Bash"
     echo "${name} by ${PUBLISHER}"
 }
-print_name
+print_name # you invoce a function with print_(the name of the function)
 echo "Variable ${name} will not be printed because it is a local variable."
 set +x
