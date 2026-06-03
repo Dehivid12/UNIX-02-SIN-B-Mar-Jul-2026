@@ -1,0 +1,3 @@
+#!/bin/bash
+let result="4 * 5"
+echo ${result}
