@@ -1,0 +1,27 @@
+total 88
+lrwxrwxrwx    1 root      root      7 Apr 22  2024 bin -> usr/bin
+drwxr-xr-x    2 root      root   4096 Jul 10  2025 bin.usr-is-merged
+drwxr-xr-x    2 root      root   4096 Apr 22  2024 boot
+drwxr-xr-x   13 root      root   3940 Jun  3 12:18 dev
+drwxr-xr-x    1 root      root   4096 Jun  3 12:20 etc
+drwxrwsr-x    3 codespace golang 4096 Apr  6 00:22 go
+drwxr-xr-x    1 root      root   4096 Jun  3 12:18 home
+lrwxrwxrwx    1 root      root      7 Apr 22  2024 lib -> usr/lib
+drwxr-xr-x    2 root      root   4096 Nov 14  2024 lib.usr-is-merged
+lrwxrwxrwx    1 root      root      9 Mar 11 11:59 lib32 -> usr/lib32
+lrwxrwxrwx    1 root      root      9 Apr 22  2024 lib64 -> usr/lib64
+drwxr-xr-x    2 root      root   4096 Feb 10 14:05 media
+drwxr-xr-x    2 root      root   4096 Feb 10 14:05 mnt
+drwxrwsr-x    1 codespace oryx   4096 Jun  3 12:18 opt
+dr-xr-xr-x  238 root      root      0 Jun  3 12:18 proc
+drwx------    1 root      root   4096 Mar 11 12:16 root
+drwxr-xr-x    1 root      root   4096 Jun  3 12:18 run
+lrwxrwxrwx    1 root      root      8 Apr 22  2024 sbin -> usr/sbin
+drwxr-xr-x    2 root      root   4096 Jul 10  2025 sbin.usr-is-merged
+drwxr-xr-x    2 root      root   4096 Feb 10 14:05 srv
+dr-xr-xr-x   12 root      root      0 Jun  3 12:10 sys
+drwxr-xrwt+   5 root      root   4096 Jun  3 12:33 tmp
+drwxr-xr-x    1 root      root   4096 Mar 11 11:59 usr
+drwxr-xr-x    1 root      root   4096 Jun  3 12:18 var
+drwxr-xr-x    5 root      root   4096 Jun  3 12:12 vscode
+drwxr-xrwx+   5 codespace root   4096 Jun  3 12:20 workspaces
