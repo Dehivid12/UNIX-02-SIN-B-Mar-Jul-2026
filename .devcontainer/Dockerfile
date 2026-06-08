@@ -5,12 +5,10 @@
 # Every instruction creates a layer, and Docker saves those layers in the cache. The layers are stacked in order, so each one depends on the layers built before it.
 # Docker reuses the layers that did not change, so the steps that rarely change go first to keep their cache and make rebuilds faster (Docker / containers — BHB Ch.3).
 
-# ----------------------------------------------------------------------------
-# FROM: imagen base sobre la que vamos a construir
-# ----------------------------------------------------------------------------
-# En lugar de partir de cero, partimos de la imagen oficial de Kali Linux
-# en su versión "rolling" (actualización continua, siempre al día).
-# Todo lo que instalemos más abajo se apila ENCIMA de esta base.
+# FROM: The base image we build on
+# We don't have to start from scratch, as we will start from the official Kali Linux image in its rolling version (continuously updated).
+# Everything from now on is stacked on top of this base.
+# We use Kali because it already comes with the security/pentesting tools the course needs (Kali + Docker lab — BHB Ch.3).
 FROM kalilinux/kali-rolling:latest
 
 
