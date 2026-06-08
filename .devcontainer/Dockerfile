@@ -1,21 +1,9 @@
-# ============================================================================
-#  Dockerfile — "receta" para construir la imagen del curso
-# ============================================================================
-#  Un Dockerfile es un archivo de texto con instrucciones paso a paso que
-#  Docker (o Codespaces) lee de arriba hacia abajo para fabricar una
-#  "imagen". Una imagen es como un molde congelado de un sistema Linux
-#  listo para usar; cada vez que abres el Codespace, se crea un
-#  "contenedor" a partir de ese molde.
-#
-#  Analogía: la imagen es el PLANO, el contenedor es la CASA construida
-#  con ese plano. Puedes construir muchas casas iguales a partir de un
-#  solo plano, y si destruyes una casa el plano sigue intacto.
-#
-#  Cada instrucción (FROM, ENV, RUN...) crea una "capa". Docker guarda
-#  esas capas en caché: si no cambias las primeras líneas, no las
-#  reconstruye y el siguiente build es casi instantáneo.
-# ============================================================================
-
+# Dockerfile: A recipe for building the course image
+# A Dockerfile is a text file that has instructions which Docker or Codespaces reads in order to build an image.
+# An image is like a mold of a Linux system, always ready to use. Every time a Codespace is opened, a container is created from that mold.
+# If the image were a house blueprint, the container would be the built house. Many houses can be built and destroyed without changing the blueprint.
+# Every instruction creates a layer, and Docker saves those layers in the cache. The layers are stacked in order, so each one depends on the layers built before it.
+# Docker reuses the layers that did not change, so the steps that rarely change go first to keep their cache and make rebuilds faster (Docker / containers — BHB Ch.3).
 
 # ----------------------------------------------------------------------------
 # FROM: imagen base sobre la que vamos a construir
@@ -219,7 +207,7 @@ RUN git config --system --add safe.directory '*' \
 # definida para que la imagen sea usable también con Docker puro.
 # Prompt del curso para bash
 RUN cat > /root/.zshrc <<'EOF'
-PROMPT='%F{cyan}[Alex Alban]%f %F{yellow}%1~%f %(?.%F{green}✓.%F{red}✗ %?)%f %# '
+PROMPT='%F{cyan}[Dehivid Salgado]%f %F{yellow}%1~%f %(?.%F{green}✓.%F{red}✗ %?)%f %# '
 EOF
 
 CMD ["/bin/zsh"]
