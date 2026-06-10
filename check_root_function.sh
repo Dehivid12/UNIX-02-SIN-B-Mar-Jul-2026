@@ -30,3 +30,4 @@ fi
 
 # sudo adduser lamine_yamal (la rama dev la hice luego)
 #su - lamine_yamal
+
