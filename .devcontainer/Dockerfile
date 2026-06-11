@@ -118,35 +118,28 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
 
-# ----------------------------------------------------------------------------
-# SHELL: which interpreter the following RUN steps use.
-# By default Docker uses /bin/sh (an older, more limited shell). We switch it to bash in case
-# we add more instructions with modern syntax like arrays or [[ ]] (sh vs bash — BHB Ch.1).
-# ----------------------------------------------------------------------------
+# Make bash the shell that the following RUN steps use, instead of the default /bin/sh 
+# Later commands can rely on bash features (sh vs bash, BHB Ch.1).
+
 SHELL ["/bin/bash", "-c"]
 
 
-# ----------------------------------------------------------------------------
-# WORKDIR: the working directory when entering the container.
-# Codespaces always mounts the repo at /workspaces/<repo-name>. Setting /workspaces here makes
-# terminals open near our course files.
-# ----------------------------------------------------------------------------
+# Set the container's default folder. Codespaces mounts the repo under /workspaces
+# WORKDIR there means new terminals open right where our project files are.
+
 WORKDIR /workspaces
 
+# Set git options for the whole image (system level), so they apply to every user. 
+# safe.directory '*' stops the "dubious ownership" error when the mounted repo is owned by anyone aside fromr the root user. 
+# init.defaultBranch main makes new repos start on "main".
+# pull.rebase false keeps `git pull` as a merge. 
+# git lfs install --system
+# They wire up Git LFS so large-file repos can work everywhere. 
 
-# ----------------------------------------------------------------------------
-# Git configuration for the container, applied system-wide (all users in the image):
-# - safe.directory '*': trust any mounted repo (needed because /workspaces files have a
-#   different UID than root inside the container).
-# - init.defaultBranch main: new repos default to "main", avoiding the master/main warning.
-# - pull.rebase false: `git pull` merges by default instead of rebasing.
-# - git lfs install --system: register the Git LFS hooks globally so LFS repos just work.
-# ----------------------------------------------------------------------------
 RUN git config --system --add safe.directory '*' \
  && git config --system init.defaultBranch main \
  && git config --system pull.rebase false \
  && git lfs install --system
-
 
 # ----------------------------------------------------------------------------
 # This RUN writes root's zsh config using a here-document (cat > /root/.zshrc <<'EOF' ... EOF):
