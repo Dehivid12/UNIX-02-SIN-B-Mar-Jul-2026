@@ -32,41 +32,31 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN echo "wireshark-common wireshark-common/install-setuid boolean false" \
     | debconf-set-selections
 
-# ----------------------------------------------------------------------------
-# RUN: run commands while the image is being built. Here we install all the course
-# software in a single RUN.
-#   apt-get update  -> refreshes the list of available packages
-#   apt-get install -> downloads and installs the listed packages
-#     -y                      -> answers "yes" automatically
-#     --no-install-recommends -> installs only the essentials, not the suggested extras (saves space)
-# Why one big RUN and not many small ones? Each RUN creates a new layer; fewer layers
-# means a smaller, faster image (images/layers — BHB Ch.3).
-# "&&" chains commands so the next runs only if the previous succeeded; if something fails
-# the build stops with an error (better a clear error than a broken image).
-# ----------------------------------------------------------------------------
+# Build-time installation of every tool the course uses, done in a single RUN.
+# "apt-get update" refreshes the package index, then "apt-get install" pulls the packages.
+# -y skips the manual yes/no confirmation (there is no human during the build).
+# --no-install-recommends keeps only the requested packages, not their extras (optional). 
+# Doing it all in ONE RUN is important because each RUN becomes a separate cached layer. One big install is a single layer instead of dozens (smaller, faster image — BHB Ch.3).
+# Each "&&" means "continue only if the previous command worked", and the trailing "\" lets one command go through several lines.
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     \
-    # === Text editors and shells (command interpreters) ===
+    # Editors and an extra shell to work comfortably inside the container:
     neovim \
     vim \
     zsh \
     bash-completion \
     \
-    # === Text-processing power tools (used in Units 2, 3 and 4) ===
-    # gawk, sed and grep are the main pattern-scanning and stream-editing tools (grep/sed/awk — BHB Ch.2).
+    # The text-processing core of the course — Perl plus the classic UNIX filters gawk/sed/grep
+    # for searching and transforming text (grep / sed / awk — BHB Ch.2):
     perl \
     make \
     gawk \
     sed \
     grep \
     \
-    # === Basic UNIX utilities ===
-    # coreutils brings cat, ls, head, tail, sort, cut, tr, etc.
-    # findutils brings find and xargs.
-    # procps brings ps, top, kill (process management).
-    # less = pager to read long files.
-    # tree = shows directories as a tree.
-    # jq = processes JSON from the command line.
+    # Everyday UNIX commands: coreutils (ls, cat, sort, cut...), findutils (find/xargs),
+    # procps (ps/top/kill), plus less, tree and the JSON tool jq:
     coreutils \
     findutils \
     procps \
@@ -74,14 +64,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tree \
     jq \
     \
-    # === Manual pages (the `man` command) ===
-    # The Kali base image ships without docs to save space. We reinstall them because
-    # in the course "man bash" or "man grep" is a constant reference.
+    # Manual pages, re-added because Kali strips them by default and we need `man` as a reference:
     man-db \
     manpages \
     manpages-posix \
     \
-    # === Basic networking and download utilities ===
+    # Networking basics plus certificate/locale support for downloads and git:
     curl \
     wget \
     git \
@@ -89,22 +77,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     locales \
     \
-    # === Linter (automatic error checker) for Bash scripts ===
+    # shellcheck, a linter that catches bugs in shell scripts before they run:
     shellcheck \
     \
-    # === Network recon and scanning ===
-    # nmap = the most famous port scanner.
-    # masscan = mass scanning of large IP ranges.
+    # Scanning tools to map hosts and ports — nmap and the high-speed masscan:
     nmap \
     masscan \
     \
-    # === Network packet capture and analysis ===
-    # tcpdump = classic terminal capturer.
-    # tshark = terminal version of Wireshark.
+    # Packet sniffers to inspect traffic from the terminal — tcpdump and tshark (CLI Wireshark):
     tcpdump \
     tshark \
     \
-    # === Miscellaneous network utilities ===
+    # A mix of smaller network utilities (DNS, whois, routing, ping, etc.):
     netcat-traditional \
     socat \
     dnsutils \
@@ -115,29 +99,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     net-tools \
     iputils-ping \
     \
-    # === Anonymity: Tor and similar ===
-    # tor = Tor network client.
-    # torsocks = wrapper that routes any command through Tor.
-    # proxychains4 = chains several proxies.
-    # obfs4proxy = obfuscates Tor traffic to evade blocks.
+    # Anonymity stack around Tor: the tor client, torsocks/proxychains to route traffic through it,
+    # and obfs4proxy to disguise that traffic:
     tor \
     torsocks \
     proxychains4 \
     obfs4proxy \
     \
-    # === HTTP client more readable than curl, good for learning ===
+    # httpie, a friendlier HTTP client than curl for learning requests:
     httpie \
     \
- # --- After installing, enable the Spanish locale ---
- # sed -i edits /etc/locale.gen in place, uncommenting the es_ES.UTF-8 line (removing its "#").
- # Then locale-gen compiles the language files (sed / stream editor — BHB Ch.2).
+ # Enable the Spanish locale (this is block f):
  && sed -i 's/# es_ES.UTF-8/es_ES.UTF-8/' /etc/locale.gen \
  && locale-gen \
  \
- # --- Final cleanup: shrink the image size ---
- # apt leaves cache files we no longer need after installing. Deleting them here, in the
- # SAME RUN, keeps the final layer smaller. In a later RUN they would still take up space
- # in the earlier layer.
+ # Clean the package cache (this is block g):
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
