@@ -141,14 +141,10 @@ RUN git config --system --add safe.directory '*' \
  && git config --system pull.rebase false \
  && git lfs install --system
 
-# ----------------------------------------------------------------------------
-# This RUN writes root's zsh config using a here-document (cat > /root/.zshrc <<'EOF' ... EOF):
-# every line up to EOF is sent as standard input into `cat`, which writes it into .zshrc.
-# The quotes around 'EOF' disable variable expansion, so the prompt codes are stored literally
-# (redirection / here-documents — BHB Ch.1).
-# The PROMPT line defines the zsh prompt: name in cyan, current directory in yellow, and a
-# green ✓ / red ✗ that shows the exit status of the last command.
-# ----------------------------------------------------------------------------
+# Write root's zsh startup file with a here-document. Everything between <<'EOF' and EOF is input to cat, which saves it into /root/.zshrc. 
+# 'EOF' keeps the text literal (no variable expansion), so the prompt code stays intact (here-documents / redirection — BHB Ch.1).
+# The PROMPT string gives the style to the terminal line
+
 RUN cat > /root/.zshrc <<'EOF'
 PROMPT='%F{cyan}[Dehivid Salgado]%f %F{yellow}%1~%f %(?.%F{green}✓.%F{red}✗ %?)%f %# '
 EOF
