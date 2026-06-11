@@ -12,28 +12,13 @@
 FROM kalilinux/kali-rolling:latest
 
 
-# ----------------------------------------------------------------------------
-# ENV: variables de entorno permanentes dentro del contenedor
-# ----------------------------------------------------------------------------
-# Las variables de entorno son "ajustes globales" que cualquier programa
-# del sistema puede leer. Se escriben en MAYÚSCULAS por convención.
-#
-#   DEBIAN_FRONTEND=noninteractive
-#     Le dice al instalador de paquetes (apt) "no me hagas preguntas
-#     interactivas, asume respuestas por defecto". Sin esto, algunos
-#     paquetes pausarían el build esperando que pulsemos una tecla y se
-#     quedaría colgado para siempre (porque no hay nadie mirando).
-#
-#   LANG / LC_ALL=es_ES.UTF-8
-#     Configuran idioma y codificación de caracteres. UTF-8 es lo que
-#     permite que acentos, ñ, €, emojis, etc. se muestren bien.
-#
-#   TERM=xterm-256color
-#     Le indica a los programas que la terminal admite 256 colores, para
-#     que vim, nvim, htop, etc. se vean con todos sus colores.
-#
-# La barra invertida "\" al final de cada línea significa "esto continúa
-# en la línea siguiente". Solo es para legibilidad.
+# ENV: permanent environment variables inside the container
+# Environment variables are global settings any program in the system can read (env vars, BHB Ch.1).
+# DEBIAN_FRONTEND=noninteractive -> tells apt not to ask interactive questions during the build, so it never hangs waiting for an answer.
+# LANG / LC_ALL=es_ES.UTF-8 -> set the language and character encoding. UTF-8 makes accents, ñ and symbols display correctly.
+# TERM=xterm-256color -> tells programs the terminal supports 256 colors, so tools like vim or htop show full color.
+# The "\" at the end of each line means the instruction continues on the next line (just for readability).
+
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=es_ES.UTF-8 \
     LC_ALL=es_ES.UTF-8 \
@@ -41,57 +26,51 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # ----------------------------------------------------------------------------
-# Pre-respuesta a una pregunta interactiva de Wireshark
+# Pre-answer to an interactive question from Wireshark
+# When Wireshark/tshark installs, it asks whether non-root users may capture packets.
+# We answer "false" in advance with debconf-set-selections so the build does not stop
+# waiting for input. "echo ... | debconf-set-selections" uses a pipe: echo's output
+# becomes the input of debconf-set-selections (pipes / stdin — BHB Ch.1).
 # ----------------------------------------------------------------------------
-# Wireshark/tshark PREGUNTA durante su instalación si los usuarios
-# normales (no-root) deben poder capturar paquetes. Como en el contenedor
-# siempre somos root, respondemos "false" POR ADELANTADO usando
-# debconf-set-selections para que no detenga el build esperando input.
 RUN echo "wireshark-common wireshark-common/install-setuid boolean false" \
     | debconf-set-selections
 
 
 # ----------------------------------------------------------------------------
-# RUN: ejecutar comandos durante la construcción de la imagen
+# RUN: run commands while the image is being built. Here we install all the course
+# software in a single RUN.
+#   apt-get update  -> refreshes the list of available packages
+#   apt-get install -> downloads and installs the listed packages
+#     -y                      -> answers "yes" automatically
+#     --no-install-recommends -> installs only the essentials, not the suggested extras (saves space)
+# Why one big RUN and not many small ones? Each RUN creates a new layer; fewer layers
+# means a smaller, faster image (images/layers — BHB Ch.3).
+# "&&" chains commands so the next runs only if the previous succeeded; if something fails
+# the build stops with an error (better a clear error than a broken image).
 # ----------------------------------------------------------------------------
-# Aquí instalamos TODO el software del curso en un solo RUN.
-#
-#   apt-get update          -> actualiza la lista de paquetes disponibles
-#   apt-get install         -> descarga e instala los paquetes listados
-#     -y                    -> responde "sí" automáticamente
-#     --no-install-recommends -> instala SOLO lo esencial (no los extras
-#                                sugeridos). Ahorra cientos de MB.
-#
-# ¿Por qué un solo RUN gigante y no 10 RUN pequeños?
-# Porque CADA RUN crea una capa nueva en la imagen. Menos capas = imagen
-# más pequeña, más rápida de construir y de descargar.
-#
-# El "&&" encadena comandos: ejecuta el siguiente SOLO SI el anterior
-# terminó bien. Si algo falla, el build se detiene con error (que es lo
-# que queremos: mejor un error claro que una imagen rota).
 RUN apt-get update && apt-get install -y --no-install-recommends \
     \
-    # === Editores de texto y shells (intérpretes de comandos) ===
+    # === Text editors and shells (command interpreters) ===
     neovim \
     vim \
     zsh \
     bash-completion \
     \
-    # === Herramientas de 4ta generación ===
-    # Estas son las protagonistas de las Unidades 2, 3 y 4:
+    # === Text-processing power tools (used in Units 2, 3 and 4) ===
+    # gawk, sed and grep are the main pattern-scanning and stream-editing tools (grep/sed/awk — BHB Ch.2).
     perl \
     make \
     gawk \
     sed \
     grep \
     \
-    # === Utilidades básicas de UNIX ===
-    # coreutils trae cat, ls, head, tail, sort, cut, tr, etc.
-    # findutils trae find y xargs.
-    # procps trae ps, top, kill (gestión de procesos).
-    # less = paginador para leer archivos largos.
-    # tree = muestra directorios como árbol.
-    # jq = procesa JSON desde la línea de comandos.
+    # === Basic UNIX utilities ===
+    # coreutils brings cat, ls, head, tail, sort, cut, tr, etc.
+    # findutils brings find and xargs.
+    # procps brings ps, top, kill (process management).
+    # less = pager to read long files.
+    # tree = shows directories as a tree.
+    # jq = processes JSON from the command line.
     coreutils \
     findutils \
     procps \
@@ -99,15 +78,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tree \
     jq \
     \
-    # === Páginas de manual (comando `man`) ===
-    # La imagen base de Kali viene sin documentación para
-    # ahorrar espacio. La reinstalamos porque en el curso "man bash" o
-    # "man grep" es material de consulta obligada.
+    # === Manual pages (the `man` command) ===
+    # The Kali base image ships without docs to save space. We reinstall them because
+    # in the course "man bash" or "man grep" is a constant reference.
     man-db \
     manpages \
     manpages-posix \
     \
-    # === Red básica y utilidades de descarga ===
+    # === Basic networking and download utilities ===
     curl \
     wget \
     git \
@@ -115,22 +93,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     locales \
     \
-    # === Linter (revisor automático de errores) para scripts Bash ===
+    # === Linter (automatic error checker) for Bash scripts ===
     shellcheck \
     \
-    # === Reconocimiento y escaneo de red ===
-    # nmap = el escáner de puertos más famoso.
-    # masscan = escaneo masivo de rangos grandes de IPs.
+    # === Network recon and scanning ===
+    # nmap = the most famous port scanner.
+    # masscan = mass scanning of large IP ranges.
     nmap \
     masscan \
     \
-    # === Captura y análisis de paquetes de red ===
-    # tcpdump = capturador clásico por terminal.
-    # tshark = versión de terminal de Wireshark.
+    # === Network packet capture and analysis ===
+    # tcpdump = classic terminal capturer.
+    # tshark = terminal version of Wireshark.
     tcpdump \
     tshark \
     \
-    # === Utilidades de red variadas ===
+    # === Miscellaneous network utilities ===
     netcat-traditional \
     socat \
     dnsutils \
@@ -141,71 +119,78 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     net-tools \
     iputils-ping \
     \
-    # === Anonimato: Tor y similares ===
-    # tor = cliente de la red Tor.
-    # torsocks = "envoltorio" que hace pasar cualquier comando por Tor.
-    # proxychains4 = encadena múltiples proxies.
-    # obfs4proxy = ofusca el tráfico de Tor para evadir bloqueos.
+    # === Anonymity: Tor and similar ===
+    # tor = Tor network client.
+    # torsocks = wrapper that routes any command through Tor.
+    # proxychains4 = chains several proxies.
+    # obfs4proxy = obfuscates Tor traffic to evade blocks.
     tor \
     torsocks \
     proxychains4 \
     obfs4proxy \
     \
-    # === Cliente HTTP más legible que curl para aprender ===
+    # === HTTP client more readable than curl, good for learning ===
     httpie \
     \
- # --- Después de instalar, activamos el idioma español ---
- # sed busca "# es_ES.UTF-8" en /etc/locale.gen y le quita el "#" para
- # activar esa línea. Luego locale-gen compila los archivos de idioma.
+ # --- After installing, enable the Spanish locale ---
+ # sed -i edits /etc/locale.gen in place, uncommenting the es_ES.UTF-8 line (removing its "#").
+ # Then locale-gen compiles the language files (sed / stream editor — BHB Ch.2).
  && sed -i 's/# es_ES.UTF-8/es_ES.UTF-8/' /etc/locale.gen \
  && locale-gen \
  \
- # --- Limpieza final: reducir el tamaño de la imagen ---
- # apt deja archivos de caché que ya no necesitamos después de instalar.
- # Borrarlos aquí (en el mismo RUN) hace la capa final más pequeña.
- # Si los borráramos en otro RUN, seguirían ocupando en la capa anterior.
+ # --- Final cleanup: shrink the image size ---
+ # apt leaves cache files we no longer need after installing. Deleting them here, in the
+ # SAME RUN, keeps the final layer smaller. In a later RUN they would still take up space
+ # in the earlier layer.
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
 
 # ----------------------------------------------------------------------------
-# SHELL: qué intérprete usar en los siguientes RUN
+# SHELL: which interpreter the following RUN steps use.
+# By default Docker uses /bin/sh (an older, more limited shell). We switch it to bash in case
+# we add more instructions with modern syntax like arrays or [[ ]] (sh vs bash — BHB Ch.1).
 # ----------------------------------------------------------------------------
-# Por defecto Docker usa /bin/sh (un shell más limitado y antiguo). Lo
-# cambiamos a bash por si agregamos más instrucciones con sintaxis
-# moderna (arrays, [[ ]], etc.).
 SHELL ["/bin/bash", "-c"]
 
 
 # ----------------------------------------------------------------------------
-# WORKDIR: directorio de trabajo al entrar al contenedor
-# ---------------------------------------------------------------------------
-# Codespaces siempre monta el código del repositorio en
-# /workspaces/<nombre-del-repo>. Establecer /workspaces aquí hace que las
-# terminales se abran cerca de nuestros archivos del curso.
+# WORKDIR: the working directory when entering the container.
+# Codespaces always mounts the repo at /workspaces/<repo-name>. Setting /workspaces here makes
+# terminals open near our course files.
+# ----------------------------------------------------------------------------
 WORKDIR /workspaces
 
-# Configuración de Git para el contenedor:
-# - safe.directory *: confía en cualquier repo montado (necesario porque
-#   /workspaces/... tiene un UID distinto al de root dentro del container).
-# - init.defaultBranch main: evita warnings de "master vs main" en git init.
-# - pull.rebase false: merge por defecto al hacer pull (más intuitivo)
-# - git lfs install --system: registra los hooks de LFS globalmente para
-#   que, si un repo los necesita, funcionen sin sorpresas.
+
+# ----------------------------------------------------------------------------
+# Git configuration for the container, applied system-wide (all users in the image):
+# - safe.directory '*': trust any mounted repo (needed because /workspaces files have a
+#   different UID than root inside the container).
+# - init.defaultBranch main: new repos default to "main", avoiding the master/main warning.
+# - pull.rebase false: `git pull` merges by default instead of rebasing.
+# - git lfs install --system: register the Git LFS hooks globally so LFS repos just work.
+# ----------------------------------------------------------------------------
 RUN git config --system --add safe.directory '*' \
  && git config --system init.defaultBranch main \
  && git config --system pull.rebase false \
  && git lfs install --system
 
+
 # ----------------------------------------------------------------------------
-# CMD: comando que se ejecuta por defecto al arrancar el contenedor
+# This RUN writes root's zsh config using a here-document (cat > /root/.zshrc <<'EOF' ... EOF):
+# every line up to EOF is sent as standard input into `cat`, which writes it into .zshrc.
+# The quotes around 'EOF' disable variable expansion, so the prompt codes are stored literally
+# (redirection / here-documents — BHB Ch.1).
+# The PROMPT line defines the zsh prompt: name in cyan, current directory in yellow, and a
+# green ✓ / red ✗ that shows the exit status of the last command.
 # ----------------------------------------------------------------------------
-# Lanza una shell bash interactiva. Codespaces la sobrescribe con su
-# propia terminal integrada de VS Code, pero es buena práctica dejarla
-# definida para que la imagen sea usable también con Docker puro.
-# Prompt del curso para bash
 RUN cat > /root/.zshrc <<'EOF'
 PROMPT='%F{cyan}[Dehivid Salgado]%f %F{yellow}%1~%f %(?.%F{green}✓.%F{red}✗ %?)%f %# '
 EOF
 
+# ----------------------------------------------------------------------------
+# CMD: the command that runs by default when the container STARTS (unlike RUN, which runs at
+# build time). Here it launches zsh as the default shell. Codespaces replaces it with its own
+# integrated terminal, but defining it keeps the image usable with plain Docker too (BHB Ch.3).
+# ----------------------------------------------------------------------------
 CMD ["/bin/zsh"]
