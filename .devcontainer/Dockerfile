@@ -9,15 +9,15 @@
 # We don't have to start from scratch, as we will start from the official Kali Linux image in its rolling version (continuously updated).
 # Everything from now on is stacked on top of this base.
 # We use Kali because it already comes with the security/pentesting tools the course needs (Kali + Docker lab — BHB Ch.3).
+
 FROM kalilinux/kali-rolling:latest
 
 
-# ENV: permanent environment variables inside the container
-# Environment variables are global settings any program in the system can read (env vars, BHB Ch.1).
-# DEBIAN_FRONTEND=noninteractive -> tells apt not to ask interactive questions during the build, so it never hangs waiting for an answer.
-# LANG / LC_ALL=es_ES.UTF-8 -> set the language and character encoding. UTF-8 makes accents, ñ and symbols display correctly.
-# TERM=xterm-256color -> tells programs the terminal supports 256 colors, so tools like vim or htop show full color.
-# The "\" at the end of each line means the instruction continues on the next line (just for readability).
+# ENV defines variables that stay set for the whole image and that any program can read (environment variables — BHB Ch.1).
+# DEBIAN_FRONTEND=noninteractive switches apt to a silent mode so it never stops the build to ask a question.
+# LANG and LC_ALL fix the language and use UTF-8 encoding, which is what lets accents, ñ and other symbols print correctly.
+# TERM=xterm-256color tells programs the terminal can show 256 colors, so tools like vim or htop render all the colors.
+# The "\" at the end of each line sends the ENV instruction to the next line.
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=es_ES.UTF-8 \
@@ -25,16 +25,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TERM=xterm-256color
 
 
-# ----------------------------------------------------------------------------
-# Pre-answer to an interactive question from Wireshark
-# When Wireshark/tshark installs, it asks whether non-root users may capture packets.
-# We answer "false" in advance with debconf-set-selections so the build does not stop
-# waiting for input. "echo ... | debconf-set-selections" uses a pipe: echo's output
-# becomes the input of debconf-set-selections (pipes / stdin — BHB Ch.1).
-# ----------------------------------------------------------------------------
+# Some packages ask configuration questions while installing. In an automated build there is nobody to answer, so it would hang forever. 
+# This line pre-loads the answer to Wireshark's question (allow non-root packet capture? -> no) before the installation. 
+# The pipe "|" sends the text from echo straight into debconf-set-selections as its input (pipes / standard input — BHB Ch.1).
+
 RUN echo "wireshark-common wireshark-common/install-setuid boolean false" \
     | debconf-set-selections
-
 
 # ----------------------------------------------------------------------------
 # RUN: run commands while the image is being built. Here we install all the course
