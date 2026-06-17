@@ -21,4 +21,4 @@ jobs
 fg %1 # fg stops the sleep of a task, and you must indicate which one by its ID
 sleep 100
 ctrl z # stop 
-
+nohup ./exercise2.sh & # Run the exercise2.sh script in the background and keep it running even after logging out
