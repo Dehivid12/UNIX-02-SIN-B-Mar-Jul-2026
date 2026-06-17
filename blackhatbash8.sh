@@ -15,3 +15,6 @@ sed '$d' newlog1.txt > newlogL.txt
 sed '5,7d' newlog1.txt > newlog57.txt
 sed -n '2,15 p' log.txt
 sed -i '1d' log.txt
+sleep 100 &
+ps -ef | grep sleep
+jobs
