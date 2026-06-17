@@ -18,3 +18,7 @@ sed -i '1d' log.txt
 sleep 100 &
 ps -ef | grep sleep
 jobs
+fg %1 # fg stops the sleep of a task, and you must indicate which one by its ID
+sleep 100
+ctrl z # stop 
+
