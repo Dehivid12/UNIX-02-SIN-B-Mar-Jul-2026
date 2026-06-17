@@ -11,3 +11,4 @@ sed 's/Mozilla/Godzilla/g' log.txt > newlog.txt
 grep -o "Godzilla" log.txt # Looks only for the word "Godzilla" in log.txt
 grep -o "Godzilla" newlog.txt # Looks only for the word "Godzilla" in newlog.txt
 sed 's/ //g' log.txt > newlog1.txt
+sed '$d' newlog1.txt > newlogL.txt
