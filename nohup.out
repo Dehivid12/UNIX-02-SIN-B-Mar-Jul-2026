@@ -1,0 +1,104 @@
+
+============================================================
+   CALIFICACION DE LA RAMA: blackhatbash
+============================================================
+  Archivos evaluados (8): blackhatbash1.sh blackhatbash2.sh blackhatbash3.sh blackhatbash4.sh blackhatbash5.sh blackhatbash6.sh blackhatbash7.sh blackhatbash8.sh 
+
+  Criterio                              Pts  Avance
+  1. Comentarios (calidad)/25          25.0  [########################]
+  2. Comentarios en ingles /20         20.0  [########################]
+  3. Commits en hora de clase /15      13.8  [######################..]
+  4. Calidad de codigo /20             20.0  [########################]
+  5. Buenas practicas /10               7.2  [#################.......]
+  6. Mensajes de commit /10            10.0  [########################]
+  ----------------------------------------------------------
+  NOTA FINAL                         96/100  A — Excelente
+
+  Detalle
+    blackhatbash1.sh       sin comentarios -> no se evalua
+    blackhatbash2.sh       dens=0.4000 coment=2   signif=2    ->  25.0/25
+    blackhatbash3.sh       sin comentarios -> no se evalua
+    blackhatbash4.sh       sin comentarios -> no se evalua
+    blackhatbash5.sh       sin comentarios -> no se evalua
+    blackhatbash6.sh       sin comentarios -> no se evalua
+    blackhatbash7.sh       sin comentarios -> no se evalua
+    blackhatbash8.sh       sin comentarios -> no se evalua
+
+    Idioma comentarios : ~91% ingles -> ingles mayoritario por gran margen [OK]  (EN=10 / ES=1)
+    Hora de clase      : 84 de 91 commits en hora de clase (92%)
+    Codigo             : 8/8 sin errores de sintaxis; shellcheck no instalado (recomiendo: sudo apt install shellcheck)
+    Buenas practicas   : shebang 7/8, ejecutables 2/8, nombres 8/8
+    Commits            : 91 commits, ~4.88 palabras/mensaje, 0 genericos
+
+  Config en uso: dias=[1 2 3 4 5] horas=[7-9) UTC_OFFSET=-5 clase_suma=true
+
+
+============================================================
+   CALIFICACION DE LA RAMA: blackhatbash
+============================================================
+  Archivos evaluados (8): blackhatbash1.sh blackhatbash2.sh blackhatbash3.sh blackhatbash4.sh blackhatbash5.sh blackhatbash6.sh blackhatbash7.sh blackhatbash8.sh 
+
+  Criterio                              Pts  Avance
+  1. Comentarios (calidad)/25          25.0  [########################]
+  2. Comentarios en ingles /20         20.0  [########################]
+  3. Commits en hora de clase /15      13.8  [######################..]
+  4. Calidad de codigo /20             20.0  [########################]
+  5. Buenas practicas /10               7.2  [#################.......]
+  6. Mensajes de commit /10            10.0  [########################]
+  ----------------------------------------------------------
+  NOTA FINAL                         96/100  A — Excelente
+
+  Detalle
+    blackhatbash1.sh       sin comentarios -> no se evalua
+    blackhatbash2.sh       dens=0.4000 coment=2   signif=2    ->  25.0/25
+    blackhatbash3.sh       sin comentarios -> no se evalua
+    blackhatbash4.sh       sin comentarios -> no se evalua
+    blackhatbash5.sh       sin comentarios -> no se evalua
+    blackhatbash6.sh       sin comentarios -> no se evalua
+    blackhatbash7.sh       sin comentarios -> no se evalua
+    blackhatbash8.sh       sin comentarios -> no se evalua
+
+    Idioma comentarios : ~91% ingles -> ingles mayoritario por gran margen [OK]  (EN=10 / ES=1)
+    Hora de clase      : 84 de 91 commits en hora de clase (92%)
+    Codigo             : 8/8 sin errores de sintaxis; shellcheck no instalado (recomiendo: sudo apt install shellcheck)
+    Buenas practicas   : shebang 7/8, ejecutables 2/8, nombres 8/8
+    Commits            : 91 commits, ~4.88 palabras/mensaje, 0 genericos
+
+  Config en uso: dias=[1 2 3 4 5] horas=[7-9) UTC_OFFSET=-5 clase_suma=true
+
+bash: line 1: ./exercise2.sh: Permission denied
+bash: line 1: ./exercise2.sh: Permission denied
+
+============================================================
+   CALIFICACION DE LA RAMA: blackhatbash
+============================================================
+  Archivos evaluados (8): blackhatbash1.sh blackhatbash2.sh blackhatbash3.sh blackhatbash4.sh blackhatbash5.sh blackhatbash6.sh blackhatbash7.sh blackhatbash8.sh 
+
+  Criterio                              Pts  Avance
+  1. Comentarios (calidad)/25          25.0  [########################]
+  2. Comentarios en ingles /20         20.0  [########################]
+  3. Commits en hora de clase /15      13.8  [######################..]
+  4. Calidad de codigo /20             20.0  [########################]
+  5. Buenas practicas /10               7.2  [#################.......]
+  6. Mensajes de commit /10            10.0  [########################]
+  ----------------------------------------------------------
+  NOTA FINAL                         96/100  A — Excelente
+
+  Detalle
+    blackhatbash1.sh       sin comentarios -> no se evalua
+    blackhatbash2.sh       dens=0.4000 coment=2   signif=2    ->  25.0/25
+    blackhatbash3.sh       sin comentarios -> no se evalua
+    blackhatbash4.sh       sin comentarios -> no se evalua
+    blackhatbash5.sh       sin comentarios -> no se evalua
+    blackhatbash6.sh       sin comentarios -> no se evalua
+    blackhatbash7.sh       sin comentarios -> no se evalua
+    blackhatbash8.sh       sin comentarios -> no se evalua
+
+    Idioma comentarios : ~91% ingles -> ingles mayoritario por gran margen [OK]  (EN=10 / ES=1)
+    Hora de clase      : 84 de 91 commits en hora de clase (92%)
+    Codigo             : 8/8 sin errores de sintaxis; shellcheck no instalado (recomiendo: sudo apt install shellcheck)
+    Buenas practicas   : shebang 7/8, ejecutables 2/8, nombres 8/8
+    Commits            : 91 commits, ~4.88 palabras/mensaje, 0 genericos
+
+  Config en uso: dias=[1 2 3 4 5] horas=[7-9) UTC_OFFSET=-5 clase_suma=true
+
